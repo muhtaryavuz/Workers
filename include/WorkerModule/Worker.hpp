@@ -12,7 +12,6 @@
 namespace worker_utility {
 class Worker {
   int m_id{-1};
-  EventExecutor m_executor;
   std::queue<worker_variant_t> m_queue;
   std::unique_ptr<std::thread> m_thread;
   std::shared_ptr<Publishable> m_publisher;
