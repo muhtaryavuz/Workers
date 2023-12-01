@@ -1,2 +1,2 @@
 # Workers
-Worker thread implementation on C++20
+Worker thread implementation on C++17
