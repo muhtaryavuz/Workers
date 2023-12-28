@@ -25,6 +25,11 @@ worker_utility::WorkerController::WorkerController(
   }
 }
 
+worker_utility::WorkerController::~WorkerController() {
+  std::for_each(m_workers.begin(), m_workers.end(),
+                [](auto& itr) { itr->stopExecution(); });
+}
+
 void worker_utility::WorkerController::sendToWorkers(worker_variant_t event) {
 
   auto index = m_thread_selector->execute();

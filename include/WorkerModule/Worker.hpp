@@ -21,7 +21,7 @@ class Worker {
 
  public:
   explicit Worker(int, std::shared_ptr<Publishable>);
-  ~Worker();
+  ~Worker() = default;
 
   void init(std::string);
   void insertToQueue(worker_variant_t const&);

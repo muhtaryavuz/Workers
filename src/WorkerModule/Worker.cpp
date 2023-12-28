@@ -9,11 +9,6 @@
 worker_utility::Worker::Worker(int id, std::shared_ptr<worker_utility::Publishable> publisher)
     : m_id(id), m_publisher(publisher) {}
 
-worker_utility::Worker::~Worker() {
-  if (m_thread->joinable())
-    m_thread->join();
-}
-
 void worker_utility::Worker::init(std::string name) {
   m_thread = std::make_unique<std::thread>(&Worker::process, this);
   if (int result = pthread_setname_np(m_thread->native_handle(), name.c_str());
@@ -38,6 +33,9 @@ void worker_utility::Worker::insertToQueue(worker_variant_t const& event) {
 
 void worker_utility::Worker::stopExecution() {
   m_is_running = false;
+  m_cv.notify_one();
+  if (m_thread->joinable())
+    m_thread->join();
 }
 
 void worker_utility::Worker::process() {
@@ -57,4 +55,5 @@ void worker_utility::Worker::process() {
 
     std::visit(EventExecutor{}, event);
   }
+  std::cout << "Thread" << m_id << " is terminated" << std::endl;
 }

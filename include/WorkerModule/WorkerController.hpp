@@ -8,7 +8,7 @@ namespace worker_utility {
 class WorkerController {
     public:
     explicit WorkerController(uint16_t num_of_workers, std::shared_ptr<worker_utility::SelectionStrategy>&& strategy);
-    ~WorkerController() = default;
+    ~WorkerController();
 
     void sendToWorkers(worker_variant_t event);
 
